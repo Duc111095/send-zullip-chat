@@ -1,2 +1,0 @@
-2024-09-21 22:57 : logger - INFO - {'result': 'error', 'msg': 'Invalid user ID 123456', 'code': 'BAD_REQUEST'}
-2024-09-21 22:58 : logger - INFO - {'result': 'error', 'msg': 'Invalid user ID 123456', 'code': 'BAD_REQUEST'}
