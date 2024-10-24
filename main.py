@@ -74,7 +74,7 @@ def kafka_consumer():
             msg_before = message.value['payload']['before'] 
             msg = message.value['payload']['after']
             if msg['status'] != '1':
-                if (msg['group_yn'] != '1'):
+                if msg['group_yn'] != '1':
                     result = zc.send_msg_private(msg['content'], int(msg['to_person']))
                 else:
                     result = zc.send_msg_group(msg['content'], int(msg['to_person']))
