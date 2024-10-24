@@ -13,6 +13,6 @@ def connect_db() -> any:
     username = config['datasource']['username']
     password = config['datasource']['password']
 
-    connectionstring = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+    connectionstring = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
     conn = pyodbc.connect(connectionstring)
     return conn

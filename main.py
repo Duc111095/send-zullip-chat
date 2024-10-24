@@ -58,7 +58,7 @@ def kafka_consumer():
     logger = get_app_logger()
     conn = connect_db()
     cursor = conn.cursor()
-    bootstrap_server = '192.168.100.52:9092'
+    bootstrap_server = 'localhost:9092'
     topic = 'notify.SKMT_App.dbo.notify_zullip'
     # To consume latest messages and auto-commit offsets
     consumer = KafkaConsumer(
