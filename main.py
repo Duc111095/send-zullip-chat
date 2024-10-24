@@ -66,7 +66,7 @@ def kafka_consumer():
                             client_id='zullip-local',
                             group_id='zullip-consumer',
                             bootstrap_servers=bootstrap_server,
-                            auto_offset_reset='latest',
+                            auto_offset_reset='earliest',
                             value_deserializer=lambda m: getdecode(m)
                             )
     try:
