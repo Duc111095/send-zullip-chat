@@ -66,16 +66,19 @@ def kafka_consumer():
                             client_id='zullip-local',
                             group_id='zullip-consumer',
                             bootstrap_servers=bootstrap_server,
-                            auto_offset_reset='earliest',
+                            auto_offset_reset='latest',
                             value_deserializer=lambda m: getdecode(m)
                             )
     try:
         for message in consumer:
             msg_before = message.value['payload']['before'] 
             msg = message.value['payload']['after']
-            if msg_before == None:
+            print(msg)
+            print(msg_before)
+            if msg_before == None and msg['status'] != 1:
                 if (msg['group_yn'] != 1):
                     result = zc.send_msg_private(msg['content'], int(msg['to_person']))
+                    print(1)
                 else:
                     result = zc.send_msg_group(msg['content'], int(msg['to_person']))
                 if result['result'] == 'success':
