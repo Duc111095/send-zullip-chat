@@ -71,11 +71,9 @@ def kafka_consumer():
                             )
     try:
         for message in consumer:
-            msg_before = message.value['payload']['before']
             msg = message.value['payload']['after']
-            logger.info(msg['content'])
-            if msg_before == None:
-                if (msg['group_yn'] != 1 and msg['to_person'] != 64):
+            if msg['status'] != '1':
+                if (msg['group_yn'] != 1):
                     result = zc.send_msg_private(msg['content'], int(msg['to_person']))
                 else:
                     result = zc.send_msg_group(msg['content'], int(msg['to_person']))
@@ -84,6 +82,7 @@ def kafka_consumer():
                     cursor.execute(sql_query)
                     conn.commit()
                 logger.info(result)
+                logger.info(msg['content'])
     except Exception as e:
         conn.rollback()
         logger.error("ERROR ", e)
