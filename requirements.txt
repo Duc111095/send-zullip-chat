@@ -1,4 +1,4 @@
 pyodbc
 markdown
 zulip
-kafka_python
+kafka-python
