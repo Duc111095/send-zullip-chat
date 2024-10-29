@@ -73,8 +73,8 @@ def kafka_consumer():
         for message in consumer:
             msg_before = message.value['payload']['before'] 
             msg = message.value['payload']['after']
-            logger.info(msg_before)
-            logger.info(msg)
+            logger.info(f"Before: {msg_before}")
+            logger.info(f"After: {msg}")
             if msg['status'] != '1' :
                 if msg['group_yn'] != '1':
                     result = zc.send_msg_private(msg['content'], int(msg['to_person']))
@@ -84,8 +84,7 @@ def kafka_consumer():
                     sql_query = 'update notify_zullip set datetime2= getdate(), status = 1 where id = ' + str(msg['id'])
                     cursor.execute(sql_query)
                     conn.commit()
-                logger.info(result)
-                logger.info(msg['content'])
+                logger.info(f"Result: {result}")
     except Exception as e:
         conn.rollback()
         logger.error("ERROR ", e)
