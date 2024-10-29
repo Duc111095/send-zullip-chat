@@ -71,7 +71,7 @@ def kafka_consumer():
                             )
     try:
         for message in consumer:
-            logger.info()
+            logger.info('0')
             msg_before = message.value['payload']['before'] 
             msg = message.value['payload']['after']
             if msg['status'] != '1' :
