@@ -92,7 +92,7 @@ def kafka_consumer():
     except Exception as e:
         consumer.commit({tp:om})
         conn.rollback()
-        logger.error("ERROR ", e)
+        logger.error("ERROR %s", e)
     conn.close()
 
 if __name__ == '__main__':
