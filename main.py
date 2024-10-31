@@ -72,6 +72,8 @@ def kafka_consumer():
                             )
     try:
         for message in consumer:
+            tp = TopicPartition(message.topic, message.partition)
+            om = OffsetAndMetadata(message.offset+1, message.timestamp)
             msg_before = message.value['payload']['before'] 
             msg = message.value['payload']['after']
             logger.info(f"Before: {msg_before}")
@@ -86,10 +88,9 @@ def kafka_consumer():
                     cursor.execute(sql_query)
                     conn.commit()
                 logger.info(f"Result: {result}")
-            tp = TopicPartition(message.topic, message.partition)
-            om = OffsetAndMetadata(message.offset+1, message.timestamp)
             consumer.commit({tp:om})
     except Exception as e:
+        consumer.commit({tp:om})
         conn.rollback()
         logger.error("ERROR ", e)
     conn.close()
