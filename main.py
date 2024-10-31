@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 
-from kafka import KafkaConsumer
+from kafka import KafkaConsumer, TopicPartition, OffsetAndMetadata
 from connect_db.connect import connect_db
 from module.tbmt import Tbmt
 from zullip_module import zullip_code as zc
@@ -67,7 +67,8 @@ def kafka_consumer():
                             group_id='zullip-consumer',
                             bootstrap_servers=bootstrap_server,
                             auto_offset_reset='latest',
-                            value_deserializer=lambda m: getdecode(m)
+                            value_deserializer=lambda m: getdecode(m),
+                            enable_auto_commit=False
                             )
     try:
         for message in consumer:
@@ -85,6 +86,9 @@ def kafka_consumer():
                     cursor.execute(sql_query)
                     conn.commit()
                 logger.info(f"Result: {result}")
+            tp = TopicPartition(message.topic, message.partition)
+            om = OffsetAndMetadata(message.offset+1, message.timestamp)
+            consumer.commit({tp:om})
     except Exception as e:
         conn.rollback()
         logger.error("ERROR ", e)
