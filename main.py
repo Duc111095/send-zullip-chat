@@ -84,7 +84,7 @@ def kafka_consumer():
                 else:
                     result = zc.send_msg_group(msg['content'], int(msg['to_person']))
                 if result['result'] == 'success':
-                    sql_query = 'update notify_zullip set datetime2= getdate(), status = 1 where id = ' + str(msg['id'])
+                    sql_query = 'update notify_zullip set datetime2 = getdate(), status = 1 where id = ' + str(msg['id'])
                     cursor.execute(sql_query)
                     conn.commit()
                 logger.info(f"Result: {result}")
