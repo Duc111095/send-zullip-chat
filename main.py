@@ -78,8 +78,7 @@ def kafka_consumer():
             msg = message.value['payload']['after']
             logger.info(f"Before: {msg_before}")
             logger.info(f"After: {msg}")
-            if msg['status'] != 1 :
-                
+            if msg['status'] != '1':
                 if msg['gc_td1'] != None:
                     sql_query = msg['gc_td1']
                     cursor.execute(sql_query)
@@ -88,7 +87,6 @@ def kafka_consumer():
                         msg_task = task_to_send(tbmts)
                 else:
                     msg_task = msg['content']
-
                 if msg['group_yn'] != 1:
                     result = zc.send_msg_private(msg_task, int(msg['to_person']))
                 else:
