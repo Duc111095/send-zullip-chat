@@ -79,7 +79,7 @@ def kafka_consumer():
             logger.info(f"Before: {msg_before}")
             logger.info(f"After: {msg}")
             if msg['status'] != '1':
-                if msg['gc_td1'] != None:
+                if msg['gc_td1'] != None & msg['gc_td1'] != '':
                     sql_query = msg['gc_td1']
                     cursor.execute(sql_query)
                     tbmts: list[Tbmt] = cursor.fetchall()
