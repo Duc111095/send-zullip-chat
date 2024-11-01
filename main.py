@@ -78,11 +78,21 @@ def kafka_consumer():
             msg = message.value['payload']['after']
             logger.info(f"Before: {msg_before}")
             logger.info(f"After: {msg}")
-            if msg['status'] != '1' :
-                if msg['group_yn'] != '1':
-                    result = zc.send_msg_private(msg['content'], int(msg['to_person']))
+            if msg['status'] != 1 :
+                
+                if msg['gc_td1'] != None:
+                    sql_query = msg['gc_td1']
+                    cursor.execute(sql_query)
+                    tbmts: list[Tbmt] = cursor.fetchall()
+                    if len(tbmts) > 0:
+                        msg_task = task_to_send(tbmts)
                 else:
-                    result = zc.send_msg_group(msg['content'], int(msg['to_person']))
+                    msg_task = msg['content']
+
+                if msg['group_yn'] != 1:
+                    result = zc.send_msg_private(msg_task, int(msg['to_person']))
+                else:
+                    result = zc.send_msg_group(msg_task, int(msg['to_person']))
                 if result['result'] == 'success':
                     sql_query = 'update notify_zullip set datetime2 = getdate(), status = 1 where id = ' + str(msg['id'])
                     cursor.execute(sql_query)
