@@ -76,6 +76,7 @@ def kafka_consumer():
             om = OffsetAndMetadata(message.offset+1, message.timestamp)
             msg_before = message.value['payload']['before'] 
             msg = message.value['payload']['after']
+            logger.info(f"------------------------------------------")
             logger.info(f"Before: {msg_before}")
             logger.info(f"After: {msg}")
             if msg['status'] != '1':
