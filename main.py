@@ -88,7 +88,7 @@ def kafka_consumer():
                         msg_task = task_to_send(tbmts)
                 else:
                     msg_task = msg['content']
-                if msg['group_yn'] != 1:
+                if msg['group_yn'] != '1':
                     result = zc.send_msg_private(msg_task, int(msg['to_person']))
                 else:
                     result = zc.send_msg_group(msg_task, int(msg['to_person']))
