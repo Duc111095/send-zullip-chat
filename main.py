@@ -92,12 +92,12 @@ def kafka_consumer():
                     result = zc.send_msg_private(msg_task, int(msg['to_person']))
                 else:
                     result = zc.send_msg_group(msg_task, int(msg['to_person']))
+                logger.info(f"Result: {result}")
+                consumer.commit({tp:om})
                 if result['result'] == 'success':
                     sql_query = 'update notify_zullip set datetime2 = getdate(), status = 1 where id = ' + str(msg['id'])
                     cursor.execute(sql_query)
                     conn.commit()
-                logger.info(f"Result: {result}")
-            consumer.commit({tp:om})
     except Exception as e:
         consumer.commit({tp:om})
         conn.rollback()
